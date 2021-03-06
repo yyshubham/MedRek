@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'QRcodeScan.dart';
 
@@ -47,6 +48,8 @@ class _doctorState extends State<doctor> {
                         child: ClipOval(
                           child: Image.network(
                             'https://hips.hearstapps.com/ell.h-cdn.co/assets/17/34/1503503945-syn-elm-1503486795-kristofer-hivju-as-tormund-got-1.jpg',
+                            fit: BoxFit.fill,
+                            height: 90,
                           ),
                         ),
                       ),
