@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mhack/screens/patient_profile_input.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'widget/logged_in_widget.dart';
 import 'widget/sign_up_widget.dart';
 import 'widget/background_painter.dart';
 import 'provider/google_sign_in.dart';
+import 'package:mhack/Doctor.dart';
 
 class wrapper extends StatelessWidget {
   @override
@@ -18,7 +20,7 @@ class wrapper extends StatelessWidget {
               if (provider.isSigningIn) {
                 return buildLoading();
               } else if (snapshot.hasData) {
-                return LoggedInWidget();
+                return PatientProfileInput();
               } else {
                 return SignUpWidget();
               }
