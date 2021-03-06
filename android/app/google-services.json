@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "494194234103",
+    "project_id": "mhack-38785",
+    "storage_bucket": "mhack-38785.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494194234103:android:51ddab4cfbe494419cf9f2",
+        "android_client_info": {
+          "package_name": "com.example.mhack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494194234103-s7c3kj7har4tbpj34k0ut7ee75c24puh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mhack",
+            "certificate_hash": "8ad8ba15040f668a78d45f5513a02b71140dfb21"
+          }
+        },
+        {
+          "client_id": "494194234103-8c51purq1n31l2vjae9bl9oqagau1gcf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc3utqvbv4-4lypTx57QDPGFdU585MBXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494194234103-8c51purq1n31l2vjae9bl9oqagau1gcf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
