@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mhack/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as storage;
+import 'package:path/path.dart';
 
 class PatientProfileInput extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   Map<String, dynamic> map;
+  String Url;
 
   void getData() async {
     // Future<Map<String, dynamic>> temp;
@@ -477,6 +480,25 @@ class PatientProfileInputState extends State<PatientProfileInput>
     super.dispose();
   }
 
+  Future uploadPicture() async {
+    String fileName = basename(_image.path);
+    storage.Reference reference =
+        storage.FirebaseStorage.instance.ref().child(fileName);
+    storage.UploadTask uploadTask = reference.putFile(_image);
+    storage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() async {
+      try {
+        String URL = await reference.getDownloadURL();
+        print(URL);
+        setState(() {
+          Url = URL;
+        });
+        print("Profile picture uploaded");
+      } catch (e) {
+        print(e.toString());
+      }
+    });
+  }
+
   Widget _getActionButtons() {
     return Padding(
       padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
@@ -492,13 +514,14 @@ class PatientProfileInputState extends State<PatientProfileInput>
                 child: new Text("Save"),
                 textColor: Colors.white,
                 color: Colors.green,
-                onPressed: () {
+                onPressed: () async {
+                  await uploadPicture();
                   String UID = FirebaseAuth.instance.currentUser.uid;
                   fire.uploadPatientData(name, email, mobile, gender, age,
-                      bloodGroup, profession, UID);
+                      bloodGroup, profession, UID, Url);
                   setState(() {
                     _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
+                    //  FocusScope.of(context).requestFocus(new FocusNode());
                   });
                 },
                 shape: new RoundedRectangleBorder(
@@ -518,7 +541,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
                 onPressed: () {
                   setState(() {
                     _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
+                    //  FocusScope.of(context).requestFocus(new FocusNode());
                   });
                 },
                 shape: new RoundedRectangleBorder(

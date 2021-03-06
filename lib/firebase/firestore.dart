@@ -18,7 +18,8 @@ class firestore {
       String age,
       String bloodGroup,
       String profession,
-      String UID) {
+      String UID,
+      String imageURL) {
     patient.doc(UID).set({
       'name': name,
       'email': email,
@@ -27,7 +28,8 @@ class firestore {
       'age': age,
       'bloodGroup': bloodGroup,
       'profession': profession,
-      'UID': UID
+      'UID': UID,
+      'imageURL': imageURL
     });
   }
 

@@ -38,7 +38,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       String UID = FirebaseAuth.instance.currentUser.uid;
-      fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID);
+      fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID, " ");
       isSigningIn = false;
     }
   }
