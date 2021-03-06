@@ -1,12 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mhack/screens/patient_profile_input.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'widget/logged_in_widget.dart';
-import 'widget/sign_up_widget.dart';
-import 'widget/background_painter.dart';
+
 import 'provider/google_sign_in.dart';
-import 'package:mhack/Doctor.dart';
+import 'widget/background_painter.dart';
+import 'widget/sign_up_widget.dart';
 
 class wrapper extends StatelessWidget {
   @override
@@ -22,7 +21,7 @@ class wrapper extends StatelessWidget {
               } else if (snapshot.hasData) {
                 return PatientProfileInput();
               } else {
-                return doctor();
+                return SignUpWidget();
               }
             },
           ),
