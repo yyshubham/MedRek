@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mhack/firebase/firestore.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -16,6 +17,8 @@ class GoogleSignInProvider extends ChangeNotifier {
     _isSigningIn = isSigningIn;
     notifyListeners();
   }
+
+  firestore fire = new firestore();
 
   Future login() async {
     isSigningIn = true;
@@ -34,6 +37,8 @@ class GoogleSignInProvider extends ChangeNotifier {
 
       await FirebaseAuth.instance.signInWithCredential(credential);
 
+      String UID = FirebaseAuth.instance.currentUser.uid;
+      fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID);
       isSigningIn = false;
     }
   }
