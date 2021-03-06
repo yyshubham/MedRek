@@ -22,7 +22,7 @@ class wrapper extends StatelessWidget {
               } else if (snapshot.hasData) {
                 return PatientProfileInput();
               } else {
-                return SignUpWidget();
+                return doctor();
               }
             },
           ),
