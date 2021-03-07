@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mhack/widget/logged_in_widget.dart';
 import 'package:mhack/widget/sign_up_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mhack/Doctor.dart';
 
 class checkRole extends StatefulWidget {
   SharedPreferences preferences;
