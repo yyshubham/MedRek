@@ -71,7 +71,7 @@ class _doctorState extends State<doctor> {
                               builder: (context) => QRViewExample()),
                         );
                       }
-                    )
+                    ),
                   ),
                 ],
                 overflow: Overflow.visible,

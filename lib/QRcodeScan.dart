@@ -1,8 +1,11 @@
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:mhack/patientportfolio.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:mhack/constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({
@@ -41,16 +44,25 @@ class QRViewExampleState extends State<QRViewExample> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
             ),
+
           ),
           Expanded(
             flex: 1,
             child: Center(
-              child: (result != null)
-                  ? Text(
-                  'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
-                  : Text('Scan a code'),
+    //           child: (result != null)
+    //               ? TextButton(onPressed:(){Navigator.push(context,
+    // CupertinoPageRoute(builder: (context) => PatientPortfolio(result.toString())));
+    // }, child: Text('Press me to view patient history')) : Text('Incorrect QRcode');
+              child : (result!=null) ? TextButton(onPressed: () {
+                CupertinoPageRoute(builder:(context) => PatientPortfolio(result.toString()));
+              } , child: Text(
+                'Press Me',
+              ),) :
+              Text(
+                'Incorrect QRCode',
+              ),
             ),
-          )
+          ),
         ],
       ),
     );

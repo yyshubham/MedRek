@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mhack/patientportfolio.dart';
 import 'package:mhack/screens/doctor_profile_input.dart';
 import 'package:mhack/screens/patient_profile_input.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _wrapperState extends State<wrapper> {
                 } else if (snapshot.hasData) {
                   return role == false
                       ? DoctorProfileInput()
-                      : PatientProfileInput();
+                      : PatientPortfolio(FirebaseAuth.instance.currentUser.uid);
                 } else {
                   return SignUpWidget();
                 }
