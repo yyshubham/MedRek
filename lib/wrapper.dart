@@ -24,14 +24,16 @@ class _wrapperState extends State<wrapper> {
   @override
   void initState() {
     // TODO: implement initState
-    role = sharedPreferences.getBool('patient');
+    role = sharedPreferences.getBool('checkRole');
     print("ROLE:$role");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) => role == null
-      ? CircularProgressIndicator()
+      ? Center(
+          child: CircularProgressIndicator(),
+        )
       : Scaffold(
           body: ChangeNotifierProvider(
             create: (context) => GoogleSignInProvider(),

@@ -13,8 +13,8 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print(sharedPreferences.getBool('checkRole'));
   print(sharedPreferences.getBool('checkRole'));
-  if (sharedPreferences.getBool('checkRole') ?? false)
-    // screen = checkRole(sharedPreferences);
+  if (sharedPreferences.containsKey('checkRole'))
+    //screen = checkRole(sharedPreferences);
     screen = wrapper(sharedPreferences);
   else
     screen = checkRole(sharedPreferences);
