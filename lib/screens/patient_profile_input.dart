@@ -39,7 +39,6 @@ class PatientProfileInputState extends State<PatientProfileInput>
   @override
   void initState() {
     getData();
-
     // TODO: implement initState
     super.initState();
   }
