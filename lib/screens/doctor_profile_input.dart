@@ -110,21 +110,22 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  new Container(
-                                      width: 140.0,
-                                      height: 140.0,
-                                      child: Center(
-                                          child: map['imageURL'] == null
-                                              ? (_image == null
-                                                  ? Image.asset(
-                                                      "assets/images/doctor_profile.png",
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : Image.file(
-                                                      _image,
-                                                      fit: BoxFit.cover,
-                                                    ))
-                                              : Image.network(map['imageURL']))
+                                  new CircleAvatar(
+                                      // width: 140.0,
+                                      // height: 140.0,
+                                      backgroundColor: Colors.grey[200],
+                                      radius: 70,
+                                      backgroundImage: map['imageURL'] == null
+                                          ? (_image == null
+                                              ? AssetImage(
+                                                  "assets/images/doctor_profile.png",
+                                                  //fit: BoxFit.cover,
+                                                )
+                                              : FileImage(
+                                                  _image,
+                                                  //fit: BoxFit.cover,
+                                                ))
+                                          : NetworkImage(map['imageURL'])
                                       //NetworkImage(map['imageURL'])),
                                       ),
                                 ],
@@ -569,7 +570,6 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
   Widget _getEditIcon() {
     return new GestureDetector(
       child: new CircleAvatar(
-        backgroundImage: NetworkImage(map['imageURL']),
         backgroundColor: Colors.red,
         radius: 14.0,
         child: new Icon(
