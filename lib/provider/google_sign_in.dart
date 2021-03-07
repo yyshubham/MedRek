@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mhack/firebase/firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -38,7 +39,13 @@ class GoogleSignInProvider extends ChangeNotifier {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       String UID = FirebaseAuth.instance.currentUser.uid;
-      fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String role = sharedPreferences.getString('role');
+      if (role == 'patient')
+        fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID, " ");
+      else
+        fire.uploadDoctorData(" ", " ", " ", " ", " ", " ", " ", UID, " ");
       isSigningIn = false;
     }
   }

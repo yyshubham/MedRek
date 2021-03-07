@@ -18,7 +18,8 @@ class firestore {
       String age,
       String bloodGroup,
       String profession,
-      String UID) {
+      String UID,
+      String imageURL) {
     patient.doc(UID).set({
       'name': name,
       'email': email,
@@ -27,7 +28,8 @@ class firestore {
       'age': age,
       'bloodGroup': bloodGroup,
       'profession': profession,
-      'UID': UID
+      'UID': UID,
+      'imageURL': imageURL
     });
   }
 
@@ -39,7 +41,35 @@ class firestore {
     return map;
   }
 
-  void uploadDoctorData() {}
+  void uploadDoctorData(
+      String name,
+      String email,
+      String mobile,
+      String qualification,
+      String specialization,
+      String hospital,
+      String address,
+      String UID,
+      String imageURL) {
+    doctor.doc(UID).set({
+      'name': name,
+      'email': email,
+      'mobile': mobile,
+      'qualification': qualification,
+      'specialization': specialization,
+      'hospital': hospital,
+      'address': address,
+      'UID': UID,
+      'imageURL': imageURL
+    });
+  }
 
-  void getDoctorData() {}
+  Future<Map<String, dynamic>> getDoctorData() async {
+    Map<String, dynamic> temp;
+    String UID = FirebaseAuth.instance.currentUser.uid;
+    DocumentSnapshot documentSnapshot =
+        await FirebaseFirestore.instance.collection('doctor').doc(UID).get();
+    temp = documentSnapshot.data();
+    return temp;
+  }
 }

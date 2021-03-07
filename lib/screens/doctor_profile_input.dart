@@ -1,3 +1,13 @@
+// import 'package:flutter/material.dart';
+
+// class DoctorProfileInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(child: Text('heya')),
+//     );
+//   }
+// }
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +18,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:path/path.dart';
 
-class PatientProfileInput extends StatefulWidget {
+class DoctorProfileInput extends StatefulWidget {
   @override
-  PatientProfileInputState createState() => PatientProfileInputState();
+  DoctorProfileInputState createState() => DoctorProfileInputState();
 }
 
-class PatientProfileInputState extends State<PatientProfileInput>
+class DoctorProfileInputState extends State<DoctorProfileInput>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -21,15 +31,10 @@ class PatientProfileInputState extends State<PatientProfileInput>
   String Url;
 
   void getData() async {
-    // Future<Map<String, dynamic>> temp;
-    // temp = fire.getPatientData();
-    // setState(() {
-    //   map = temp;
-    // });
     Map<String, dynamic> temp;
     String UID = FirebaseAuth.instance.currentUser.uid;
     DocumentSnapshot documentSnapshot =
-        await FirebaseFirestore.instance.collection('patient').doc(UID).get();
+        await FirebaseFirestore.instance.collection('doctor').doc(UID).get();
     temp = documentSnapshot.data();
     setState(() {
       map = temp;
@@ -39,13 +44,14 @@ class PatientProfileInputState extends State<PatientProfileInput>
   @override
   void initState() {
     getData();
+
     // TODO: implement initState
     super.initState();
   }
 
   File _image;
   final picker = ImagePicker();
-  String name, email, mobile, gender, age, bloodGroup, profession;
+  String name, email, mobile, qualification, specialization, hospital, address;
   firestore fire = new firestore();
 
   Future getImage() async {
@@ -228,7 +234,8 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                           },
                                           initialValue: map['name'],
                                           decoration: const InputDecoration(
-                                            hintText: "Enter Your Name",
+                                            hintText:
+                                                "Enter Your Name Doctor !",
                                           ),
                                           enabled: !_status,
                                           autofocus: !_status,
@@ -330,7 +337,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                       Expanded(
                                         child: Container(
                                           child: new Text(
-                                            'Gender',
+                                            'Qualification',
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
@@ -341,7 +348,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                       Expanded(
                                         child: Container(
                                           child: new Text(
-                                            'Age',
+                                            'Specialization',
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
@@ -364,12 +371,13 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                           child: new TextFormField(
                                             onChanged: (val) {
                                               setState(() {
-                                                gender = val;
+                                                qualification = val;
                                               });
                                             },
-                                            initialValue: map['gender'],
+                                            initialValue: map['qualification'],
                                             decoration: const InputDecoration(
-                                                hintText: "Enter Gender"),
+                                                hintText:
+                                                    "Enter qualification"),
                                             enabled: !_status,
                                           ),
                                         ),
@@ -379,12 +387,12 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                         child: new TextFormField(
                                           onChanged: (val) {
                                             setState(() {
-                                              age = val;
+                                              specialization = val;
                                             });
                                           },
-                                          initialValue: map['age'],
+                                          initialValue: map['specialization'],
                                           decoration: const InputDecoration(
-                                              hintText: "Enter Age"),
+                                              hintText: "Enter specialization"),
                                           enabled: !_status,
                                         ),
                                         flex: 2,
@@ -401,7 +409,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                       Expanded(
                                         child: Container(
                                           child: new Text(
-                                            'Blood Group',
+                                            'Hospital',
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
@@ -412,7 +420,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                       Expanded(
                                         child: Container(
                                           child: new Text(
-                                            'Profession',
+                                            'Hospital',
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
@@ -435,12 +443,13 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                           child: new TextFormField(
                                             onChanged: (val) {
                                               setState(() {
-                                                bloodGroup = val;
+                                                hospital = val;
                                               });
                                             },
-                                            initialValue: map['bloodGroup'],
+                                            initialValue: map['hospital'],
                                             decoration: const InputDecoration(
-                                                hintText: "Enter Blood Group"),
+                                                hintText:
+                                                    "Enter Hospital Name"),
                                             enabled: !_status,
                                           ),
                                         ),
@@ -450,12 +459,13 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                         child: new TextFormField(
                                           onChanged: (val) {
                                             setState(() {
-                                              profession = val;
+                                              address = val;
                                             });
                                           },
-                                          initialValue: map['profession'],
+                                          initialValue: map['address'],
                                           decoration: const InputDecoration(
-                                              hintText: "Enter Profession"),
+                                              hintText:
+                                                  "Enter Clinic/Hospital Address"),
                                           enabled: !_status,
                                         ),
                                         flex: 2,
@@ -519,8 +529,8 @@ class PatientProfileInputState extends State<PatientProfileInput>
                 onPressed: () async {
                   await uploadPicture();
                   String UID = FirebaseAuth.instance.currentUser.uid;
-                  fire.uploadPatientData(name, email, mobile, gender, age,
-                      bloodGroup, profession, UID, Url);
+                  fire.uploadDoctorData(name, email, mobile, qualification,
+                      specialization, hospital, address, UID, Url);
                   setState(() {
                     _status = true;
                     //  FocusScope.of(context).requestFocus(new FocusNode());
