@@ -11,8 +11,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  print(sharedPreferences.getBool('checkRole'));
+  print(sharedPreferences.getBool('checkRole'));
   if (sharedPreferences.getBool('checkRole') ?? false)
-    screen = wrapper();
+    // screen = checkRole(sharedPreferences);
+    screen = wrapper(sharedPreferences);
   else
     screen = checkRole(sharedPreferences);
   runApp(MyApp());
@@ -24,4 +27,3 @@ class MyApp extends StatelessWidget {
     return MaterialApp(home: screen);
   }
 }
-
