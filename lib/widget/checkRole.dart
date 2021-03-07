@@ -39,7 +39,9 @@ class _checkRoleState extends State<checkRole> {
               child: GestureDetector(
                 onTap: () {
                   sharedPreferences.setBool('checkRole', true);
-                  sharedPreferences.setString('role', 'patient');
+                  sharedPreferences.setBool('patient', true);
+                  print("Y");
+                  print(sharedPreferences.getString('patient'));
                   Navigator.push(context,
                       CupertinoPageRoute(builder: (context) => SignUpWidget()));
                 },
@@ -73,7 +75,9 @@ class _checkRoleState extends State<checkRole> {
               child: GestureDetector(
                 onTap: () {
                   sharedPreferences.setBool('checkRole', true);
-                  sharedPreferences.setString('role', 'doctor');
+                  sharedPreferences.setBool('patient', false);
+                  print("N");
+                  print(sharedPreferences.getBool('patient'));
                   Navigator.push(context,
                       CupertinoPageRoute(builder: (context) => SignUpWidget()));
                 },
