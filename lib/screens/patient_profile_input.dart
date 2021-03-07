@@ -105,21 +105,24 @@ class PatientProfileInputState extends State<PatientProfileInput>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  new Container(
-                                    width: 140.0,
-                                    height: 140.0,
-                                    child: Center(
-                                      child: _image == null
-                                          ? Image.asset(
-                                              "assets/images/doctor_profile.png",
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.file(
-                                              _image,
-                                              fit: BoxFit.cover,
-                                            ),
-                                    ),
-                                  ),
+                                  CircleAvatar(
+                                      // width: 140.0,
+                                      // height: 140.0,
+                                      backgroundColor: Colors.grey[200],
+                                      radius: 70,
+                                      backgroundImage: map['imageURL'] == null
+                                          ? (_image == null
+                                              ? AssetImage(
+                                                  "assets/images/doctor_profile.png",
+                                                  //fit: BoxFit.cover,
+                                                )
+                                              : FileImage(
+                                                  _image,
+                                                  //fit: BoxFit.cover,
+                                                ))
+                                          : NetworkImage(map['imageURL'])
+                                      //NetworkImage(map['imageURL'])),
+                                      ),
                                 ],
                               ),
                               Padding(

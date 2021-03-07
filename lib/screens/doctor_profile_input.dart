@@ -110,7 +110,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  new CircleAvatar(
+                                  CircleAvatar(
                                       // width: 140.0,
                                       // height: 140.0,
                                       backgroundColor: Colors.grey[200],
