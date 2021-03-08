@@ -49,6 +49,7 @@ class QRViewExampleState extends State<QRViewExample> {
           Expanded(
             flex: 1,
             child: Center(
+
               //           child: (result != null)
               //               ? TextButton(onPressed:(){Navigator.push(context,
               // CupertinoPageRoute(builder: (context) => PatientPortfolio(result.toString())));
@@ -70,6 +71,7 @@ class QRViewExampleState extends State<QRViewExample> {
                   : Text(
                       'Incorrect QRCode',
                     ),
+
             ),
           ),
         ],
