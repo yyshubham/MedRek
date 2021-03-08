@@ -9,7 +9,8 @@ import 'package:mhack/constants.dart';
 
 class AddTaskScreen extends StatefulWidget {
   int size;
-  AddTaskScreen(this.size);
+  String UID;
+  AddTaskScreen(this.size, this.UID);
   @override
   _AddTaskScreenState createState() => _AddTaskScreenState();
 }
@@ -95,12 +96,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (Context) {
-                    return recordsScreen();
+                    return recordsScreen(widget.UID);
                   }),
                 );
                 firestore().uploadPatientMedicalHistory(
                     widget.size,
-                    FirebaseAuth.instance.currentUser.uid,
+                    widget.UID,
                     startdateController.text,
                     enddateController.text,
                     diseaseController.text,

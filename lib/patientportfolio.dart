@@ -39,7 +39,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
       return map;
     }
     Map<String, dynamic> temp;
-
+    print(UID);
     // temp = fire.getPatientData();
     // setState(() {
     //   map = temp;
@@ -286,7 +286,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (Context) {
-                      return recordsScreen();
+                      return recordsScreen(UID);
                     }),
                   );
                 }),
