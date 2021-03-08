@@ -54,8 +54,8 @@ class QRViewExampleState extends State<QRViewExample> {
     // CupertinoPageRoute(builder: (context) => PatientPortfolio(result.toString())));
     // }, child: Text('Press me to view patient history')) : Text('Incorrect QRcode');
               child : (result!=null) ? TextButton(onPressed: () {
-                CupertinoPageRoute(builder:(context) => PatientPortfolio(result.toString()));
-              } , child: Text(
+                Navigator.push(context,CupertinoPageRoute(builder:(context) => PatientPortfolio(result.code)),
+                );} , child: Text(
                 'Press Me',
               ),) :
               Text(
