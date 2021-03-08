@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mhack/widget/logged_in_widget.dart';
 import 'package:mhack/widget/sign_up_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mhack/Doctor.dart';
 
 class checkRole extends StatefulWidget {
   SharedPreferences preferences;
@@ -39,7 +40,10 @@ class _checkRoleState extends State<checkRole> {
               child: GestureDetector(
                 onTap: () {
                   sharedPreferences.setBool('checkRole', true);
-                  sharedPreferences.setString('role', 'patient');
+                  print("Y");
+                  bool x = sharedPreferences.getBool('checkRole');
+                  print(x);
+                  //print(sharedPreferences.getBool('patient'));
                   Navigator.push(context,
                       CupertinoPageRoute(builder: (context) => SignUpWidget()));
                 },
@@ -72,8 +76,11 @@ class _checkRoleState extends State<checkRole> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  sharedPreferences.setBool('checkRole', true);
-                  sharedPreferences.setString('role', 'doctor');
+                  sharedPreferences.setBool('checkRole', false);
+                  // sharedPreferences.setBool('patient', false);
+                  print("N");
+                  bool x = sharedPreferences.getBool('checkRole');
+                  print(x);
                   Navigator.push(context,
                       CupertinoPageRoute(builder: (context) => SignUpWidget()));
                 },

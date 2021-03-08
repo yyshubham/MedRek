@@ -9,14 +9,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:mhack/GenerateQR.dart';
 import 'package:mhack/Patienthistory.dart';
+import 'package:mhack/constants.dart';
 
 class PatientPortfolio extends StatefulWidget {
   @override
-  _PatientPortfolioState createState() => _PatientPortfolioState();
+  String UID;
+  PatientPortfolio(String id) {
+    this.UID = id;
+  }
+  _PatientPortfolioState createState() => _PatientPortfolioState(UID);
 }
 
 class _PatientPortfolioState extends State<PatientPortfolio> {
+  _PatientPortfolioState(String id) {
+    this.UID = id;
+  }
+
   String str;
+  String UID;
   String generate() {
     for (int i = 0; i < 8; i++) {
       str += (map[i].first + ":" + map[i].second + ",");
@@ -24,26 +34,25 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
     return str;
   }
 
-  Map<String, dynamic> map;
-  int x;
-
   getData() async {
     if (map != null) {
       return map;
     }
     Map<String, dynamic> temp;
-
+    print(UID);
     // temp = fire.getPatientData();
     // setState(() {
     //   map = temp;
     // });
-    String UID = FirebaseAuth.instance.currentUser.uid;
+    // String UID = FirebaseAuth.instance.currentUser.uid;
+    print(UID);
     DocumentSnapshot documentSnapshot =
         await FirebaseFirestore.instance.collection('patient').doc(UID).get();
     temp = documentSnapshot.data();
     setState(() {
       map = temp;
     });
+    return map;
   }
 
   @override
@@ -71,6 +80,11 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                     alignment: Alignment.bottomRight,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
+                      // child: Text(
+                      //   map['name'],
+                      //   style: TextStyle(
+                      //       fontSize: 20, fontWeight: FontWeight.bold),
+                      // ),
                       child: FutureBuilder(
                           future: getData(),
                           builder: (context, AsyncSnapshot<dynamic> snapshot) {
@@ -105,9 +119,9 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                     height: 150,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: AssetImage('images/rohit.jpg'),
-                          fit: BoxFit.fill),
+                      // image: DecorationImage(
+                      //     // image: AssetImage('images/doctor.png'),
+                      //     fit: BoxFit.fill),
                     ),
                   ),
                 ),
@@ -140,13 +154,125 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
             SizedBox(
               height: 50,
             ),
-            Data(first: 'Name', second: map['name']),
-            Data(first: 'E-Mail', second: map['email']),
-            Data(first: 'Mobile', second: map['mobile']),
-            Data(first: 'Gender', second: map['gender']),
-            Data(first: 'Age', second: map['age']),
-            Data(first: 'Blood Group', second: map['bloodGroup']),
-            Data(first: 'Profession', second: map['profession']),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Name', second: map['name']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'E-Mail', second: map['email']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Mobile', second: map['mobile']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Gender', second: map['gender']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Age', second: map['age']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Blood Group', second: map['bloodGroup']);
+                }),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Profession', second: map['profession']);
+                }),
             SizedBox(
               height: 10,
               child: Divider(
@@ -161,7 +287,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (Context) {
-                      return recordsScreen();
+                      return recordsScreen(UID);
                     }),
                   );
                 }),

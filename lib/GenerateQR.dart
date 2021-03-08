@@ -25,3 +25,4 @@ class _GenerateQRState extends State<GenerateQR> {
     );
   }
 }
+
