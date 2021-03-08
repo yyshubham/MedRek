@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:mhack/Patienthistory.dart';
+import 'package:mhack/constants.dart';
+
+class AddTaskScreen extends StatefulWidget {
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  TextEditingController startdateController = TextEditingController();
+  TextEditingController enddateController = TextEditingController();
+  TextEditingController diseaseController = TextEditingController();
+  TextEditingController doctorController = TextEditingController();
+  TextEditingController hospitalController = TextEditingController();
+  TextEditingController medicineController = TextEditingController();
+  TextEditingController testscontroller = TextEditingController();
+
+  int y = 0;
+  int z = 0;
+
+  void addItemToList() {
+    setState(() {
+      startdate.insert(0, startdateController.text);
+      enddate.insert(0, enddateController.text);
+      disease.insert(0, diseaseController.text);
+      doctor.insert(0, doctorController.text);
+      hospital.insert(0, hospitalController.text);
+      medicine.insert(0, medicineController.text);
+      tests.insert(0, testscontroller.text);
+    });
+  }
+
+  Padding repeat({String string, var controller}) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: string,
+        ),
+      ),
+    );
+  }
+
+  List<String> temp;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xff757575),
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              'Add Medical Record',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25.0,
+                color: Colors.lightBlueAccent,
+              ),
+            ),
+            repeat(string: 'Disease', controller: diseaseController),
+            Row(
+              children: [
+                Expanded(
+                  child: repeat(
+                      string: 'Start-Date', controller: startdateController),
+                ),
+                Expanded(
+                  child:
+                      repeat(string: 'End-Date', controller: enddateController),
+                ),
+              ],
+            ),
+            repeat(string: 'Doctor', controller: doctorController),
+            repeat(string: 'Hospital', controller: hospitalController),
+            repeat(string: 'Medicine', controller: medicineController),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: repeat(string: 'Tests', controller: testscontroller),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        RaisedButton(
+                          child: Icon(Icons.arrow_circle_up),
+                        ),
+                        Text('Upload'),
+                      ],
+                    )),
+              ],
+            ),
+            FlatButton(
+              child: Text(
+                'Add',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              color: Colors.lightBlueAccent,
+              onPressed: () {
+                addItemToList();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (Context) {
+                    return recordsScreen();
+                  }),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
