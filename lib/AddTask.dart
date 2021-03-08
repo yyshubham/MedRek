@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mhack/firebase/firestore.dart';
+import 'package:mhack/patientportfolio.dart';
+import 'package:mhack/screens/patient_profile_input.dart';
 import 'package:provider/provider.dart';
 import 'package:mhack/Patienthistory.dart';
 import 'package:mhack/constants.dart';
 
 class AddTaskScreen extends StatefulWidget {
+  int size;
+  AddTaskScreen(this.size);
   @override
   _AddTaskScreenState createState() => _AddTaskScreenState();
 }
@@ -80,12 +86,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               color: Colors.lightBlueAccent,
               onPressed: () {
                 addItemToList();
+                // Navigator.pushAndRemoveUntil(context,
+                //     MaterialPageRoute(builder: (context) {
+                //   return recordsScreen();
+                // }), (Route<dynamic> route) => route is PatientProfileInput);
+                Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (Context) {
                     return recordsScreen();
                   }),
                 );
+                firestore().uploadPatientMedicalHistory(
+                    widget.size,
+                    FirebaseAuth.instance.currentUser.uid,
+                    startdateController.text,
+                    enddateController.text,
+                    diseaseController.text,
+                    doctorController.text,
+                    hospitalController.text,
+                    medicineController.text);
               },
             ),
           ],

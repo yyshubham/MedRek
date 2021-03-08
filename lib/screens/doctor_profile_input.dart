@@ -13,10 +13,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mhack/Doctor.dart';
 import 'package:mhack/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:path/path.dart';
+import 'package:toast/toast.dart';
 
 class DoctorProfileInput extends StatefulWidget {
   @override
@@ -115,7 +117,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                       // height: 140.0,
                                       backgroundColor: Colors.grey[200],
                                       radius: 70,
-                                      backgroundImage: map['imageURL'] == null
+                                      backgroundImage: map['imageURL'] == " "
                                           ? (_image == null
                                               ? AssetImage(
                                                   "assets/images/doctor_profile.png",
@@ -472,7 +474,9 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                       ),
                                     ],
                                   )),
-                              !_status ? _getActionButtons() : new Container(),
+                              !_status
+                                  ? _getActionButtons(context)
+                                  : new Container(),
                             ],
                           ),
                         ),
@@ -511,7 +515,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
     });
   }
 
-  Widget _getActionButtons() {
+  Widget _getActionButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
       child: new Row(
@@ -531,6 +535,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                   String UID = FirebaseAuth.instance.currentUser.uid;
                   fire.uploadDoctorData(name, email, mobile, qualification,
                       specialization, hospital, address, UID, Url);
+                  Toast.show("Uploaded Successfully!", context);
                   setState(() {
                     _status = true;
                     //  FocusScope.of(context).requestFocus(new FocusNode());
@@ -547,14 +552,16 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
               padding: EdgeInsets.only(left: 10.0),
               child: Container(
                   child: new RaisedButton(
-                child: new Text("Cancel"),
+                child: new Text("Go"),
                 textColor: Colors.white,
-                color: Colors.red,
+                color: Colors.blue,
                 onPressed: () {
                   setState(() {
                     _status = true;
                     //  FocusScope.of(context).requestFocus(new FocusNode());
                   });
+                  Navigator.pushReplacement(context,
+                      CupertinoPageRoute(builder: (context) => doctor()));
                 },
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),

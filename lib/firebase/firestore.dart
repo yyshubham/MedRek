@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mhack/Doctor.dart';
 import 'package:mhack/constants.dart';
 
 class firestore {
@@ -10,6 +11,29 @@ class firestore {
 
   final CollectionReference patient =
       FirebaseFirestore.instance.collection('patient');
+
+  void uploadPatientMedicalHistory(
+      int size,
+      String UID,
+      String startDate,
+      String endDate,
+      String disease,
+      String doctor,
+      String hospital,
+      String medicine) {
+    String medID = UID + size.toString();
+    print("YO");
+    print(medID);
+    CollectionReference medicalHistory = patient.doc(UID).collection('history');
+    medicalHistory.doc(medID).set({
+      'start': startDate,
+      'end': endDate,
+      'disease': disease,
+      'doctor': doctor,
+      'hospital': hospital,
+      'medicine': medicine
+    });
+  }
 
   void uploadPatientData(
       String name,
