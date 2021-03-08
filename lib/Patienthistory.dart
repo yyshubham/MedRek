@@ -5,6 +5,8 @@ import 'package:mhack/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class recordsScreen extends StatefulWidget {
+  String UID;
+  recordsScreen(this.UID);
   @override
   recordsScreenState createState() => recordsScreenState();
 }
@@ -21,7 +23,7 @@ class recordsScreenState extends State<recordsScreen> {
   getData() async {
     CollectionReference medicalHistory = FirebaseFirestore.instance
         .collection('patient')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(widget.UID)
         .collection('history');
     List<QueryDocumentSnapshot> list;
     await medicalHistory.snapshots().forEach((element) {
@@ -70,7 +72,8 @@ class recordsScreenState extends State<recordsScreen> {
                                               bottom: MediaQuery.of(context)
                                                   .viewInsets
                                                   .bottom),
-                                          child: AddTaskScreen(data.length + 1),
+                                          child: AddTaskScreen(
+                                              data.length + 1, widget.UID),
                                         )));
                               }),
                           ListView.builder(

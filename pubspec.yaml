@@ -43,7 +43,6 @@ dependencies:
   firebase_storage:
 #  file_picker:
   image_picker:
-  encrypt: ^4.1.0
   permission_handler:
 
 dev_dependencies:
