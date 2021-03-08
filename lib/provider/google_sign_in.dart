@@ -41,8 +41,8 @@ class GoogleSignInProvider extends ChangeNotifier {
       String UID = FirebaseAuth.instance.currentUser.uid;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      String role = sharedPreferences.getString('role');
-      if (role == 'patient')
+      bool role = sharedPreferences.getBool('checkRole');
+      if (role == true)
         fire.uploadPatientData(" ", " ", " ", " ", " ", " ", " ", UID, " ");
       else
         fire.uploadDoctorData(" ", " ", " ", " ", " ", " ", " ", UID, " ");

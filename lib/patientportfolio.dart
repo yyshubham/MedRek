@@ -14,13 +14,16 @@ import 'package:mhack/constants.dart';
 class PatientPortfolio extends StatefulWidget {
   @override
   String UID;
-  PatientPortfolio(String id){this.UID=id;}
+  PatientPortfolio(String id) {
+    this.UID = id;
+  }
   _PatientPortfolioState createState() => _PatientPortfolioState(UID);
 }
 
 class _PatientPortfolioState extends State<PatientPortfolio> {
-
-  _PatientPortfolioState(String id){this.UID=id;}
+  _PatientPortfolioState(String id) {
+    this.UID = id;
+  }
 
   String str;
   String UID;
@@ -31,10 +34,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
     return str;
   }
 
-
-
-   getData() async {
-    if(map!=null){
+  getData() async {
+    if (map != null) {
       return map;
     }
     Map<String, dynamic> temp;
@@ -44,6 +45,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
     //   map = temp;
     // });
     // String UID = FirebaseAuth.instance.currentUser.uid;
+    print(UID);
     DocumentSnapshot documentSnapshot =
         await FirebaseFirestore.instance.collection('patient').doc(UID).get();
     temp = documentSnapshot.data();
@@ -82,7 +84,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                       //   style: TextStyle(
                       //       fontSize: 20, fontWeight: FontWeight.bold),
                       // ),
-                      child :FutureBuilder(
+                      child: FutureBuilder(
                           future: getData(),
                           builder: (context, AsyncSnapshot<dynamic> snapshot) {
                             if (snapshot.data == null) {
@@ -99,9 +101,9 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                             }
 
                             return Text(
-                            map['name'],
-                            style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                              map['name'],
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             );
                           }),
                     ),
@@ -131,7 +133,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                           context: context,
                           isScrollControlled: true,
                           builder: (context) => SingleChildScrollView(
-                              child: Container(
+                                  child: Container(
                                 padding: EdgeInsets.only(
                                     bottom: MediaQuery.of(context)
                                         .viewInsets
@@ -160,8 +162,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -177,8 +179,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -194,8 +196,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -211,8 +213,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -228,8 +230,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -245,13 +247,13 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
                   }
-                  return  Data(first: 'Blood Group', second: map['bloodGroup']);
+                  return Data(first: 'Blood Group', second: map['bloodGroup']);
                 }),
             FutureBuilder(
                 future: getData(),
@@ -262,15 +264,14 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                         scale: 0.3,
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xffff416c)),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
                   }
                   return Data(first: 'Profession', second: map['profession']);
                 }),
-
             SizedBox(
               height: 10,
               child: Divider(

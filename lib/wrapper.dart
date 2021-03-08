@@ -46,12 +46,19 @@ class _wrapperState extends State<wrapper> {
                 print("YO");
                 final provider = Provider.of<GoogleSignInProvider>(context);
                 if (provider.isSigningIn) {
+                  print(1);
                   return buildLoading();
                 } else if (snapshot.hasData) {
-                  return role == false
-                      ? DoctorProfileInput()
-                      : PatientPortfolio(FirebaseAuth.instance.currentUser.uid);
+                  print(2);
+                  if (role == true)
+                    return PatientProfileInput();
+                  else
+                    return DoctorProfileInput();
+                  // return role == false
+                  //     ? PatientProfileInput()
+                  //     : DoctorProfileInput();
                 } else {
+                  print(3);
                   return SignUpWidget();
                 }
               },

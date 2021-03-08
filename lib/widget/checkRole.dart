@@ -40,9 +40,8 @@ class _checkRoleState extends State<checkRole> {
               child: GestureDetector(
                 onTap: () {
                   sharedPreferences.setBool('checkRole', true);
-                  // sharedPreferences.setBool('patient', true);
                   print("Y");
-                  bool x = sharedPreferences.getBool('patient');
+                  bool x = sharedPreferences.getBool('checkRole');
                   print(x);
                   //print(sharedPreferences.getBool('patient'));
                   Navigator.push(context,
