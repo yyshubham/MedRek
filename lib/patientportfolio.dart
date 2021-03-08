@@ -52,6 +52,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
     setState(() {
       map = temp;
     });
+    return map;
   }
 
   @override
