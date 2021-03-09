@@ -64,8 +64,8 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                 Container(
                   height: 170,
                   width: double.infinity,
-                  color: Color(0xffC0DDEE),
+                  color: Colors.blue.shade600,
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
@@ -112,16 +112,14 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                 ),
                 Positioned(
                   left: 20,
-                  bottom: -50,
-                  child: Container(
-                    margin: EdgeInsets.all(20),
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      // image: DecorationImage(
-                      //     // image: AssetImage('images/doctor.png'),
-                      //     fit: BoxFit.fill),
+                  bottom: 0,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue.shade600,
+                    radius: 74,
+                    child: ClipOval(
+                      child: Image.network(
+                          map['imageURL'],
+                      ),
                     ),
                   ),
                 ),
@@ -145,6 +143,7 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
                     child: Icon(
                       Icons.qr_code_scanner,
                       size: 30,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -313,7 +312,7 @@ class Data extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
       decoration: BoxDecoration(
-        color: Color(0xffff416c),
+        color: Colors.blue.shade500,
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(

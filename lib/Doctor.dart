@@ -1,69 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'QRcodeScan.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:mhack/GenerateQR.dart';
+import 'package:mhack/Patienthistory.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mhack/constants.dart';
+import 'package:mhack/QRcodeScan.dart';
 
-class doctor extends StatefulWidget {
+class doctor1 extends StatefulWidget {
   @override
-  _doctorState createState() => _doctorState();
+  _doctor1State createState() => _doctor1State();
 }
 
-class _doctorState extends State<doctor> {
+class _doctor1State extends State<doctor1> {
+
+  String UID;
+  getData() async {
+    if (doctormap != null) {
+      return doctormap;
+    }
+    Map<String, dynamic> temp;
+    print(UID);
+    // temp = fire.getPatientData();
+    // setState(() {
+    //   doctormap = temp;
+    // });
+    // String UID = FirebaseAuth.instance.currentUser.uid;
+    print(UID);
+    DocumentSnapshot documentSnapshot =
+    await FirebaseFirestore.instance.collection('patient').doc(UID).get();
+    temp = documentSnapshot.data();
+    setState(() {
+      doctormap = temp;
+    });
+    return doctormap;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Scaffold(
-      backgroundColor: Colors.white,
+    return Scaffold(
       body: SafeArea(
-        child: Container(
-          child: Column(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(left: 0.25, right: 0.25),
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.only(
-//                          bottomRight: Radius.circular(25),
-//                          bottomLeft: Radius.circular(25),
-                        ),
-                        color: Color(0xffff577f),
-                        shape: BoxShape.rectangle,
-                        ),
-                  ),
-                  Positioned(
-                    bottom: -45,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 46,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 45,
-                        child: ClipOval(
-                          child: Image.network(
-                            'https://hips.hearstapps.com/ell.h-cdn.co/assets/17/34/1503503945-syn-elm-1503486795-kristofer-hivju-as-tormund-got-1.jpg',
-                          ),
-                        ),
-                      ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 170,
+                  width: double.infinity,
+                  color: Colors.blue.shade300,
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
+                      // child: Text(
+                      //   doctormap['name'],
+                      //   style: TextStyle(
+                      //       fontSize: 20, fontWeight: FontWeight.bold),
+                      // ),
+                      child: FutureBuilder(
+                          future: getData(),
+                          builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(
+                                child: Transform.scale(
+                                  scale: 0.3,
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Color(0xffff416c)),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return Text(
+                              doctormap['name'],
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            );
+                          }),
                     ),
                   ),
-                  Positioned(
-                    top: 15.0,
-                    right: 15.0,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xffff577f)),
-                      ),
-                        child: Icon(
-                          Icons.qr_code_scanner,
-                          size: 35.0,
-                          color: Colors.black,
+                ),
+                Positioned(
+                  left: 50,
+                  bottom : 10,
+                  child: CircleAvatar(
+                    radius: 75,
+                    backgroundColor: Colors.black,
+                    child: CircleAvatar(
+                      radius: 74,
+                        child: ClipOval(
+                          child: Image.network(
+                            doctormap['imageURL']
+                          ),
                         ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade300),
+                      ),
+                      child: Icon(
+                        Icons.qr_code_scanner,
+                        size: 35.0,
+                        color: Colors.black,
+                      ),
                       onPressed :() {
                         Navigator.push(
                           context,
@@ -71,160 +121,213 @@ class _doctorState extends State<doctor> {
                               builder: (context) => QRViewExample()),
                         );
                       }
-                    ),
-                  ),
-                ],
-                overflow: Overflow.visible,
-              ),
-              Spacer(flex:1),
-              Container(
-                margin: EdgeInsets.only(top :60.0),
-                child: Center(
-                  child :Text(
-                    'DOCTOR NAME',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
                   ),
                 ),
-              ),
-              Spacer(flex:2),
-              Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(left: 10.0, right: 10.0,top: 15.0),
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                      color: Color(0xffff577f),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(11),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,  // red as border color
-                          ),
-                          borderRadius:
-                          BorderRadius.all(
-                            Radius.circular(25),
-                          ),
+              ],
+              overflow: Overflow.visible,
+            ),
+            Spacer(
+              flex:3,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 20.0,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 23,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 22,
-                        child: Icon(
-                          Icons.star,
-                          size: 40.0,
-                          color: Colors.yellow.shade700,
+                    );
+                  }
+                  return Data(first: 'Name', second: doctormap['name']);
+                }),
+            Spacer(
+              flex:1,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 20.0,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 23,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 22,
-                        child: Icon(
-                          Icons.add,
-                          size: 45.0,
-                          color: Colors.lightBlue.shade700,
+                    );
+                  }
+                  return Data(first: 'E-Mail', second: doctormap['email']);
+                }),
+            Spacer(
+              flex:1,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  }
+                  return Data(first: 'Mobile', second: doctormap['mobile']);
+                }),
+            Spacer(
+              flex:1,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'specialisation', second: doctormap['specialization']);
+                }),
+            Spacer(
+              flex:1,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'qualification', second: doctormap['qualification']);
+                }),
+            Spacer(
+              flex:1,
+            ),
+            FutureBuilder(
+                future: getData(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.3,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                        ),
+                      ),
+                    );
+                  }
+                  return Data(first: 'Hospital', second: doctormap['hospital']);
+                }),
+            Spacer(
+              flex:5,
+            ),
 
-                ],
-                overflow: Overflow.visible,
-              ),
-              Spacer(flex: 3),
-              Container(
-                height: 50.0,
-//                    width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top:15.0,bottom:5.0,left: 10.0,right:10.0),
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                  color: Color(0xffff577f),
-                  shape: BoxShape.rectangle,
-                ),
-                child: Center(
-                  child: Text(
-                    'BOOK AN APPOINTMENT',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(flex:3),
-              Container(
-                height: 50.0,
-                margin: EdgeInsets.only(top:10.0,bottom:5.0,left: 10.0,right:10.0),
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                  color: Color(0xffff577f),
-                  shape: BoxShape.rectangle,
-                ),
-                child: Center(
-                  child: Text(
-                    'CONTACT ME',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(flex:3),
-              Container(
-                height: 50.0,
-                margin: EdgeInsets.only(top:10.0,bottom:10.0,left: 10.0,right:10.0),
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                  color: Color(0xffff577f),
-                  shape: BoxShape.rectangle,
-                ),
-                child: Center(
-                  child: Text(
-                    'MESSAGE ME',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(flex:15),
-            ],
-          ),
+          ],
         ),
       ),
-      ),);
+    );
+  }
+}
+
+class Data extends StatelessWidget {
+  Data({@required this.first, @required this.second});
+  var first;
+  var second;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade600,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[300],
+            offset: Offset(4.0, 4.0),
+            blurRadius: 4.0,
+            spreadRadius: 1.0,
+          ),
+          BoxShadow(
+            color: Colors.grey[100],
+            offset: Offset(-4.0, -4.0),
+            blurRadius: 10.0,
+            spreadRadius: 1.0,
+          ),
+        ],
+//        shape: BoxShape.rectangle,
+      ),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 10.0),
+        margin: EdgeInsets.only(left: 15.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+          shape: BoxShape.rectangle,
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex:1,
+              child: AutoSizeText(
+                '$first',
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                ),
+                minFontSize: 10,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                softWrap: false,
+              ),
+            ),
+            Expanded(
+              flex:1,
+              child: AutoSizeText(
+                '$second',
+                style: GoogleFonts.montserrat(
+                  fontSize: 14.0,
+                ),
+                minFontSize: 10,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                softWrap: false,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

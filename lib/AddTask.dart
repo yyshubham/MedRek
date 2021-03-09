@@ -22,6 +22,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController doctorController = TextEditingController();
   TextEditingController hospitalController = TextEditingController();
   TextEditingController medicineController = TextEditingController();
+  TextEditingController testscontroller = TextEditingController();
 
   void addItemToList() {
     setState(() {
@@ -67,16 +68,44 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               'Add Medical Record',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30.0,
+                fontSize: 25.0,
                 color: Colors.lightBlueAccent,
               ),
             ),
-            repeat(string: 'Date', controller: startdateController),
-            repeat(string: 'Date', controller: enddateController),
             repeat(string: 'Disease', controller: diseaseController),
+            Row(
+              children: [
+                Expanded(
+                  child: repeat(
+                      string: 'Start-Date', controller: startdateController),
+                ),
+                Expanded(
+                  child:
+                  repeat(string: 'End-Date', controller: enddateController),
+                ),
+              ],
+            ),
             repeat(string: 'Doctor', controller: doctorController),
             repeat(string: 'Hospital', controller: hospitalController),
             repeat(string: 'Medicine', controller: medicineController),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: repeat(string: 'Tests', controller: testscontroller),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        RaisedButton(
+                          child: Icon(Icons.arrow_circle_up),
+                        ),
+                        Text('Upload'),
+                      ],
+                    )),
+              ],
+            ),
             FlatButton(
               child: Text(
                 'Add',

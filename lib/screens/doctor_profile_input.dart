@@ -17,8 +17,11 @@ import 'package:mhack/Doctor.dart';
 import 'package:mhack/firebase/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
+import 'package:mhack/patientportfolio.dart';
 import 'package:path/path.dart';
 import 'package:toast/toast.dart';
+import 'package:mhack/constants.dart';
+
 
 class DoctorProfileInput extends StatefulWidget {
   @override
@@ -29,7 +32,6 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  Map<String, dynamic> map;
   String Url;
 
   void getData() async {
@@ -39,7 +41,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
         await FirebaseFirestore.instance.collection('doctor').doc(UID).get();
     temp = documentSnapshot.data();
     setState(() {
-      map = temp;
+      doctormap = temp;
     });
   }
 
@@ -69,7 +71,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
 
   @override
   Widget build(BuildContext context) {
-    return map == null
+    return doctormap == null
         ? CircularProgressIndicator()
         : new Scaffold(
             body: new Container(
@@ -117,7 +119,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                       // height: 140.0,
                                       backgroundColor: Colors.grey[200],
                                       radius: 70,
-                                      backgroundImage: map['imageURL'] == " "
+                                      backgroundImage: doctormap['imageURL'] == " "
                                           ? (_image == null
                                               ? AssetImage(
                                                   "assets/images/doctor_profile.png",
@@ -127,8 +129,8 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                                   _image,
                                                   //fit: BoxFit.cover,
                                                 ))
-                                          : NetworkImage(map['imageURL'])
-                                      //NetworkImage(map['imageURL'])),
+                                          : NetworkImage(doctormap['imageURL'])
+                                      //NetworkImage(doctormap['imageURL'])),
                                       ),
                                 ],
                               ),
@@ -234,7 +236,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               name = val;
                                             });
                                           },
-                                          initialValue: map['name'],
+                                          initialValue: doctormap['name'],
                                           decoration: const InputDecoration(
                                             hintText:
                                                 "Enter Your Name Doctor !",
@@ -279,7 +281,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               email = val;
                                             });
                                           },
-                                          initialValue: map['email'],
+                                          initialValue: doctormap['email'],
                                           decoration: const InputDecoration(
                                               hintText: "Enter Email ID"),
                                           enabled: !_status,
@@ -321,7 +323,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               mobile = val;
                                             });
                                           },
-                                          initialValue: map['mobile'],
+                                          initialValue: doctormap['mobile'],
                                           decoration: const InputDecoration(
                                               hintText: "Enter Mobile Number"),
                                           enabled: !_status,
@@ -376,7 +378,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                                 qualification = val;
                                               });
                                             },
-                                            initialValue: map['qualification'],
+                                            initialValue: doctormap['qualification'],
                                             decoration: const InputDecoration(
                                                 hintText:
                                                     "Enter qualification"),
@@ -392,7 +394,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               specialization = val;
                                             });
                                           },
-                                          initialValue: map['specialization'],
+                                          initialValue: doctormap['specialization'],
                                           decoration: const InputDecoration(
                                               hintText: "Enter specialization"),
                                           enabled: !_status,
@@ -448,7 +450,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                                 hospital = val;
                                               });
                                             },
-                                            initialValue: map['hospital'],
+                                            initialValue: doctormap['hospital'],
                                             decoration: const InputDecoration(
                                                 hintText:
                                                     "Enter Hospital Name"),
@@ -464,7 +466,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               address = val;
                                             });
                                           },
-                                          initialValue: map['address'],
+                                          initialValue: doctormap['address'],
                                           decoration: const InputDecoration(
                                               hintText:
                                                   "Enter Clinic/Hospital Address"),
@@ -561,7 +563,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                     //  FocusScope.of(context).requestFocus(new FocusNode());
                   });
                   Navigator.pushReplacement(context,
-                      CupertinoPageRoute(builder: (context) => doctor()));
+                      CupertinoPageRoute(builder: (context) => doctor1()));
                 },
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
