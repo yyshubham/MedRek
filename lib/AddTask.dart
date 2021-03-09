@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mhack/firebase/firestore.dart';
+import 'package:mhack/patientportfolio.dart';
+import 'package:mhack/screens/patient_profile_input.dart';
 import 'package:provider/provider.dart';
 import 'package:mhack/Patienthistory.dart';
 import 'package:mhack/constants.dart';
 
 class AddTaskScreen extends StatefulWidget {
+  int size;
+  String UID;
+  AddTaskScreen(this.size, this.UID);
   @override
   _AddTaskScreenState createState() => _AddTaskScreenState();
 }
@@ -17,9 +24,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController medicineController = TextEditingController();
   TextEditingController testscontroller = TextEditingController();
 
-  int y = 0;
-  int z = 0;
-
   void addItemToList() {
     setState(() {
       startdate.insert(0, startdateController.text);
@@ -28,13 +32,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       doctor.insert(0, doctorController.text);
       hospital.insert(0, hospitalController.text);
       medicine.insert(0, medicineController.text);
-      tests.insert(0, testscontroller.text);
     });
   }
 
   Padding repeat({String string, var controller}) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -44,8 +47,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       ),
     );
   }
-
-  List<String> temp;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
                 Expanded(
                   child:
-                      repeat(string: 'End-Date', controller: enddateController),
+                  repeat(string: 'End-Date', controller: enddateController),
                 ),
               ],
             ),
@@ -115,12 +116,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               color: Colors.lightBlueAccent,
               onPressed: () {
                 addItemToList();
+                // Navigator.pushAndRemoveUntil(context,
+                //     MaterialPageRoute(builder: (context) {
+                //   return recordsScreen();
+                // }), (Route<dynamic> route) => route is PatientProfileInput);
+                Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (Context) {
-                    return recordsScreen();
+                    return recordsScreen(widget.UID);
                   }),
                 );
+                firestore().uploadPatientMedicalHistory(
+                    widget.size,
+                    widget.UID,
+                    startdateController.text,
+                    enddateController.text,
+                    diseaseController.text,
+                    doctorController.text,
+                    hospitalController.text,
+                    medicineController.text);
               },
             ),
           ],
