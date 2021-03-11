@@ -8,6 +8,7 @@ import 'package:mhack/Patienthistory.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mhack/constants.dart';
 import 'package:mhack/QRcodeScan.dart';
+import 'package:mhack/helper.dart';
 
 class doctor1 extends StatefulWidget {
   @override
@@ -15,7 +16,6 @@ class doctor1 extends StatefulWidget {
 }
 
 class _doctor1State extends State<doctor1> {
-
   String UID;
   getData() async {
     if (doctormap != null) {
@@ -30,7 +30,7 @@ class _doctor1State extends State<doctor1> {
     // String UID = FirebaseAuth.instance.currentUser.uid;
     print(UID);
     DocumentSnapshot documentSnapshot =
-    await FirebaseFirestore.instance.collection('patient').doc(UID).get();
+        await FirebaseFirestore.instance.collection('patient').doc(UID).get();
     temp = documentSnapshot.data();
     setState(() {
       doctormap = temp;
@@ -49,9 +49,14 @@ class _doctor1State extends State<doctor1> {
             Stack(
               children: [
                 Container(
-                  height: 170,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/back2.jpg'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  height: 130,
                   width: double.infinity,
-                  color: Colors.blue.shade300,
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
@@ -61,44 +66,49 @@ class _doctor1State extends State<doctor1> {
                       //   style: TextStyle(
                       //       fontSize: 20, fontWeight: FontWeight.bold),
                       // ),
-                      child: FutureBuilder(
-                          future: getData(),
-                          builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                            if (snapshot.data == null) {
-                              return Center(
-                                child: Transform.scale(
-                                  scale: 0.3,
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Color(0xffff416c)),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            return Text(
-                              doctormap['name'],
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            );
-                          }),
+                      child: Text(''),
                     ),
                   ),
                 ),
                 Positioned(
-                  left: 50,
-                  bottom : 10,
-                  child: CircleAvatar(
-                    radius: 75,
-                    backgroundColor: Colors.black,
-                    child: CircleAvatar(
-                      radius: 74,
-                        child: ClipOval(
-                          child: Image.network(
-                            doctormap['imageURL']
-                          ),
-                        ),
+                  bottom: -30,
+                  right: 20,
+                  child: FutureBuilder(
+                      future: getData(),
+                      builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.data == null) {
+                          return Center(
+                            child: Transform.scale(
+                              scale: 0.3,
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color(0xffff416c)),
+                              ),
+                            ),
+                          );
+                        }
+
+                        return Text(
+                          doctormap['name'],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        );
+                      }),
+                ),
+                Positioned(
+                  left: 30,
+                  bottom: -30,
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(doctormap['imageURL'] != null
+                              ? doctormap['imageURL']
+                              : 'https://image.shutterstock.com/image-vector/doctor-vector-illustration-260nw-512904655.jpg'),
+                          fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -107,27 +117,26 @@ class _doctor1State extends State<doctor1> {
                   right: 10,
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade300),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.blue.shade300),
                       ),
                       child: Icon(
                         Icons.qr_code_scanner,
                         size: 35.0,
                         color: Colors.black,
                       ),
-                      onPressed :() {
+                      onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => QRViewExample()),
+                          MaterialPageRoute(builder: (context) => helper()),
                         );
-                      }
-                  ),
+                      }),
                 ),
               ],
               overflow: Overflow.visible,
             ),
             Spacer(
-              flex:3,
+              flex: 3,
             ),
             FutureBuilder(
                 future: getData(),
@@ -139,7 +148,7 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -147,7 +156,7 @@ class _doctor1State extends State<doctor1> {
                   return Data(first: 'Name', second: doctormap['name']);
                 }),
             Spacer(
-              flex:1,
+              flex: 1,
             ),
             FutureBuilder(
                 future: getData(),
@@ -159,7 +168,7 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -167,7 +176,7 @@ class _doctor1State extends State<doctor1> {
                   return Data(first: 'E-Mail', second: doctormap['email']);
                 }),
             Spacer(
-              flex:1,
+              flex: 1,
             ),
             FutureBuilder(
                 future: getData(),
@@ -179,7 +188,7 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -187,7 +196,7 @@ class _doctor1State extends State<doctor1> {
                   return Data(first: 'Mobile', second: doctormap['mobile']);
                 }),
             Spacer(
-              flex:1,
+              flex: 1,
             ),
             FutureBuilder(
                 future: getData(),
@@ -199,15 +208,17 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
                   }
-                  return Data(first: 'specialisation', second: doctormap['specialization']);
+                  return Data(
+                      first: 'specialisation',
+                      second: doctormap['specialization']);
                 }),
             Spacer(
-              flex:1,
+              flex: 1,
             ),
             FutureBuilder(
                 future: getData(),
@@ -219,15 +230,17 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
                   }
-                  return Data(first: 'qualification', second: doctormap['qualification']);
+                  return Data(
+                      first: 'qualification',
+                      second: doctormap['qualification']);
                 }),
             Spacer(
-              flex:1,
+              flex: 1,
             ),
             FutureBuilder(
                 future: getData(),
@@ -239,7 +252,7 @@ class _doctor1State extends State<doctor1> {
                         child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
+                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
                         ),
                       ),
                     );
@@ -247,9 +260,8 @@ class _doctor1State extends State<doctor1> {
                   return Data(first: 'Hospital', second: doctormap['hospital']);
                 }),
             Spacer(
-              flex:5,
+              flex: 5,
             ),
-
           ],
         ),
       ),
@@ -264,9 +276,9 @@ class Data extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      margin: EdgeInsets.fromLTRB(20, 10, 20, 5),
       decoration: BoxDecoration(
-        color: Colors.blue.shade600,
+        color: Color(0xff64B4AF),
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
@@ -285,7 +297,7 @@ class Data extends StatelessWidget {
 //        shape: BoxShape.rectangle,
       ),
       child: Container(
-        padding: EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 10.0),
+        padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         margin: EdgeInsets.only(left: 15.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -297,7 +309,7 @@ class Data extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex:1,
+              flex: 1,
               child: AutoSizeText(
                 '$first',
                 style: GoogleFonts.montserrat(
@@ -312,7 +324,7 @@ class Data extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex:1,
+              flex: 1,
               child: AutoSizeText(
                 '$second',
                 style: GoogleFonts.montserrat(

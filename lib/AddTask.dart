@@ -37,12 +37,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   Padding repeat({String string, var controller}) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(15),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: string,
+          labelStyle: TextStyle(
+            color: Color(0xff64B4AF),
+          ),
+          fillColor: Color(0xff64B4AF),
+          focusColor: Color(0xff64B4AF),
         ),
       ),
     );
@@ -69,7 +74,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 25.0,
-                color: Colors.lightBlueAccent,
+                color: Color(0xff64B4AF),
               ),
             ),
             repeat(string: 'Disease', controller: diseaseController),
@@ -81,63 +86,59 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
                 Expanded(
                   child:
-                  repeat(string: 'End-Date', controller: enddateController),
+                      repeat(string: 'End-Date', controller: enddateController),
                 ),
               ],
             ),
             repeat(string: 'Doctor', controller: doctorController),
             repeat(string: 'Hospital', controller: hospitalController),
             repeat(string: 'Medicine', controller: medicineController),
-            Row(
+            repeat(string: 'Tests', controller: testscontroller),
+            Column(
               children: [
-                Expanded(
-                  flex: 5,
-                  child: repeat(string: 'Tests', controller: testscontroller),
+                RaisedButton(
+                  color: Color(0xff64B4AF),
+                  onPressed: () {},
+                  child: Icon(Icons.arrow_circle_up),
                 ),
-                Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        RaisedButton(
-                          child: Icon(Icons.arrow_circle_up),
-                        ),
-                        Text('Upload'),
-                      ],
-                    )),
+                Text('Upload'),
               ],
             ),
-            FlatButton(
-              child: Text(
-                'Add',
-                style: TextStyle(
-                  color: Colors.white,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(300),
+              child: FlatButton(
+                child: Text(
+                  'Add',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
+                color: Color(0xff64B4AF),
+                onPressed: () {
+                  addItemToList();
+                  // Navigator.pushAndRemoveUntil(context,
+                  //     MaterialPageRoute(builder: (context) {
+                  //   return recordsScreen();
+                  // }), (Route<dynamic> route) => route is PatientProfileInput);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (Context) {
+                      return recordsScreen(widget.UID);
+                    }),
+                  );
+                  firestore().uploadPatientMedicalHistory(
+                      widget.size,
+                      widget.UID,
+                      startdateController.text,
+                      enddateController.text,
+                      diseaseController.text,
+                      doctorController.text,
+                      hospitalController.text,
+                      medicineController.text);
+                },
               ),
-              color: Colors.lightBlueAccent,
-              onPressed: () {
-                addItemToList();
-                // Navigator.pushAndRemoveUntil(context,
-                //     MaterialPageRoute(builder: (context) {
-                //   return recordsScreen();
-                // }), (Route<dynamic> route) => route is PatientProfileInput);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (Context) {
-                    return recordsScreen(widget.UID);
-                  }),
-                );
-                firestore().uploadPatientMedicalHistory(
-                    widget.size,
-                    widget.UID,
-                    startdateController.text,
-                    enddateController.text,
-                    diseaseController.text,
-                    doctorController.text,
-                    hospitalController.text,
-                    medicineController.text);
-              },
             ),
           ],
         ),

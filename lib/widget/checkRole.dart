@@ -24,9 +24,10 @@ class _checkRoleState extends State<checkRole> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(45),
               child: Text(
                 'Select Role',
                 style: GoogleFonts.montserrat(
@@ -49,19 +50,20 @@ class _checkRoleState extends State<checkRole> {
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
                     boxShadow: [BoxShadow(color: Colors.grey[800])],
                     color: Colors.grey[200],
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(
                           alignment: Alignment.centerLeft,
                           image: AssetImage('assets/images/patient.png')),
-                      Text('As a Patient',
+                      Text('Patient',
                           style: GoogleFonts.montserrat(
                               fontSize: 20, fontWeight: FontWeight.normal)),
                     ],
@@ -86,21 +88,28 @@ class _checkRoleState extends State<checkRole> {
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
                     boxShadow: [BoxShadow(color: Colors.grey[800])],
                     color: Colors.grey[200],
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image(
                           alignment: Alignment.centerLeft,
                           image: AssetImage('assets/images/doctor.png')),
-                      Text('As a Medical \n Officer/Doctor',
-                          style: GoogleFonts.montserrat(
-                              fontSize: 20, fontWeight: FontWeight.normal)),
+                      Center(
+                        child: Text('Medical Officer/\nDoctor',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      ),
                     ],
                   ),
                 ),

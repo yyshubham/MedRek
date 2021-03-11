@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'firebase/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,237 +67,258 @@ class _PatientPortfolioState extends State<PatientPortfolio> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 170,
-                  width: double.infinity,
-                  color: Colors.blue.shade600,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
-                      // child: Text(
-                      //   map['name'],
-                      //   style: TextStyle(
-                      //       fontSize: 20, fontWeight: FontWeight.bold),
-                      // ),
-                      child: FutureBuilder(
-                          future: getData(),
-                          builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                            if (snapshot.data == null) {
-                              return Center(
-                                child: Transform.scale(
-                                  scale: 0.3,
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Color(0xffff416c)),
-                                  ),
-                                ),
-                              );
-                            }
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/back2.jpg'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    height: 130,
+                    width: double.infinity,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
+                        // child: Text(
+                        //   map['name'],
+                        //   style: TextStyle(
+                        //       fontSize: 20, fontWeight: FontWeight.bold),
+                        // ),
+                        child: Text(''),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder(
+                      future: getData(),
+                      builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.data == null) {
+                          return Center(
+                            child: Transform.scale(
+                              scale: 0.3,
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color(0xffff416c)),
+                              ),
+                            ),
+                          );
+                        }
 
-                            return Text(
-                              map['name'],
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            );
-                          }),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 20,
-                  bottom: 0,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue.shade600,
-                    radius: 74,
-                    child: ClipOval(
-                      child: Image.network(
-                          map['imageURL'],
+                        return Positioned(
+                          bottom: -40,
+                          right: 20,
+                          child: Text(
+                            map['name'],
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      }),
+                  Positioned(
+                    left: 20,
+                    bottom: -50,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(map['imageURL']),
+                            fit: BoxFit.cover),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: TextButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (context) => SingleChildScrollView(
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: TextButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => SingleChildScrollView(
                                   child: Container(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                child: GenerateQR(),
-                              )));
-                    },
-                    child: Icon(
-                      Icons.qr_code_scanner,
-                      size: 30,
-                      color: Colors.black,
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
+                                    child: GenerateQR(),
+                                  ),
+                                ));
+                      },
+                      child: Icon(
+                        Icons.qr_code_scanner,
+                        size: 30,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
+                ],
+                overflow: Overflow.visible,
+              ),
+              SizedBox(
+                height: 65,
+              ),
+              // FutureBuilder(
+              //     future: getData(),
+              //     builder: (context, AsyncSnapshot<dynamic> snapshot) {
+              //       if (snapshot.data == null) {
+              //         return Center(
+              //           child: Transform.scale(
+              //             scale: 0.3,
+              //             child: CircularProgressIndicator(
+              //               backgroundColor: Colors.white,
+              //               valueColor: AlwaysStoppedAnimation<Color>(
+              //                   Color(0xffff416c)),
+              //             ),
+              //           ),
+              //         );
+              //       }
+              //       return Data(first: 'Name', second: map['name']);
+              //     }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(first: 'E-Mail', second: map['email']);
+                  }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(first: 'Mobile', second: map['mobile']);
+                  }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(first: 'Gender', second: map['gender']);
+                  }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(first: 'Age', second: map['age']);
+                  }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(
+                        first: 'Blood Group', second: map['bloodGroup']);
+                  }),
+              FutureBuilder(
+                  future: getData(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Transform.scale(
+                          scale: 0.3,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffff416c)),
+                          ),
+                        ),
+                      );
+                    }
+                    return Data(first: 'Profession', second: map['profession']);
+                  }),
+              SizedBox(
+                height: 10,
+                child: Divider(
+                  color: Colors.grey,
                 ),
-              ],
-              overflow: Overflow.visible,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Name', second: map['name']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'E-Mail', second: map['email']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Mobile', second: map['mobile']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Gender', second: map['gender']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Age', second: map['age']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Blood Group', second: map['bloodGroup']);
-                }),
-            FutureBuilder(
-                future: getData(),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(
-                      child: Transform.scale(
-                        scale: 0.3,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xffff416c)),
-                        ),
-                      ),
-                    );
-                  }
-                  return Data(first: 'Profession', second: map['profession']);
-                }),
-            SizedBox(
-              height: 10,
-              child: Divider(
-                color: Colors.grey,
               ),
-            ),
-            FlatButton(
-                child: Text('PATIENT HISTORY'),
-                minWidth: double.infinity,
-                height: 15,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (Context) {
-                      return recordsScreen(UID);
-                    }),
-                  );
-                }),
-            SizedBox(
-              height: 10,
-              child: Divider(
-                color: Colors.grey,
+              FlatButton(
+                  child: Text(
+                    'MEDICAL RECORD',
+                    style: TextStyle(
+                        color: Color(0xff64B4AF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                  minWidth: double.infinity,
+                  height: 15,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (Context) {
+                        return recordsScreen(UID);
+                      }),
+                    );
+                  }),
+              SizedBox(
+                height: 10,
+                child: Divider(
+                  color: Colors.grey,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -312,7 +334,7 @@ class Data extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
       decoration: BoxDecoration(
-        color: Colors.blue.shade500,
+        color: Color(0xff64B4AF),
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
@@ -331,8 +353,10 @@ class Data extends StatelessWidget {
 //        shape: BoxShape.rectangle,
       ),
       child: Container(
-        padding: EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 10.0),
-        margin: EdgeInsets.only(left: 15.0),
+        padding: EdgeInsets.fromLTRB(15.0, 15.0, 10.0, 15.0),
+        margin: EdgeInsets.only(
+          left: 15.0,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
@@ -342,26 +366,32 @@ class Data extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AutoSizeText(
-              '$first',
-              style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
+            Expanded(
+              flex: 1,
+              child: AutoSizeText(
+                '$first',
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                softWrap: false,
               ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
-              softWrap: false,
             ),
-            AutoSizeText(
-              '$second',
-              style: GoogleFonts.montserrat(
-                fontSize: 14.0,
+            Expanded(
+              flex: 1,
+              child: AutoSizeText(
+                '$second',
+                style: GoogleFonts.montserrat(
+                  fontSize: 14.0,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                softWrap: false,
               ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
-              softWrap: false,
             ),
           ],
         ),

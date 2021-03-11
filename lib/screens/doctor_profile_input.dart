@@ -22,7 +22,6 @@ import 'package:path/path.dart';
 import 'package:toast/toast.dart';
 import 'package:mhack/constants.dart';
 
-
 class DoctorProfileInput extends StatefulWidget {
   @override
   DoctorProfileInputState createState() => DoctorProfileInputState();
@@ -119,7 +118,8 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                       // height: 140.0,
                                       backgroundColor: Colors.grey[200],
                                       radius: 70,
-                                      backgroundImage: doctormap['imageURL'] == " "
+                                      backgroundImage: doctormap['imageURL'] ==
+                                              " "
                                           ? (_image == null
                                               ? AssetImage(
                                                   "assets/images/doctor_profile.png",
@@ -378,7 +378,8 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                                 qualification = val;
                                               });
                                             },
-                                            initialValue: doctormap['qualification'],
+                                            initialValue:
+                                                doctormap['qualification'],
                                             decoration: const InputDecoration(
                                                 hintText:
                                                     "Enter qualification"),
@@ -394,7 +395,8 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                               specialization = val;
                                             });
                                           },
-                                          initialValue: doctormap['specialization'],
+                                          initialValue:
+                                              doctormap['specialization'],
                                           decoration: const InputDecoration(
                                               hintText: "Enter specialization"),
                                           enabled: !_status,
@@ -424,7 +426,7 @@ class DoctorProfileInputState extends State<DoctorProfileInput>
                                       Expanded(
                                         child: Container(
                                           child: new Text(
-                                            'Hospital',
+                                            'Address',
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),

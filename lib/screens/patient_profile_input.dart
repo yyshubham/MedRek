@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:mhack/patientportfolio.dart';
 import 'package:path/path.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class PatientProfileInput extends StatefulWidget {
   @override
@@ -66,6 +67,7 @@ class PatientProfileInputState extends State<PatientProfileInput>
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.red);
     return map == null
         ? CircularProgressIndicator()
         : new Scaffold(
