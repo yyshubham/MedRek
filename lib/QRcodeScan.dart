@@ -72,15 +72,6 @@ class QRViewExampleState extends State<QRViewExample> {
                     ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                'Open from Gallery',
-              ),
-            ),
-          ),
         ],
       ),
     );
